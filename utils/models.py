@@ -31,31 +31,33 @@ class NeuralNetwork:
                                     kernel_regularizer=tf.keras.regularizers.l2(lamreg))
         self.leaky_relu(alpha=alpha)
 
-    def set_architecture_deep(self, sizefilter=(3, 3), stride1=(1, 1), stride2=(1, 1), filter1=None, filter2=None,
+    def set_architecture_deep(self, sizefilter=(3, 3),
+                              stride0=(1, 1), stride1=(1, 1), stride2=(1, 1), stride3=(1, 1),
+                              filter0=None, filter1=None, filter2=None, filter3=None,
                               alpha=None, lamreg=0):
         self.set_input()
-        self.conv2d_layer(nfilters=int(filter1 / 2), sizefilter=sizefilter, strides=(1, 1), padding="same",
+        self.conv2d_layer(nfilters=filter0, sizefilter=sizefilter, strides=stride0, padding="same",
                           kernel_regularizer=tf.keras.regularizers.l2(lamreg), data_format="channels_last")
         self.leaky_relu(alpha=alpha)
         self.conv2d_layer(nfilters=filter1, sizefilter=sizefilter, strides=stride1, padding="same",
                           kernel_regularizer=tf.keras.regularizers.l2(lamreg))
         self.leaky_relu(alpha=alpha)
-        self.conv2d_layer(nfilters=int(filter2 / 2), sizefilter=sizefilter, strides=(1, 1), padding="same",
-                          kernel_regularizer=tf.keras.regularizers.l2(lamreg))
-        self.leaky_relu(alpha=alpha)
         self.conv2d_layer(nfilters=filter2, sizefilter=sizefilter, strides=stride2, padding="same",
                           kernel_regularizer=tf.keras.regularizers.l2(lamreg))
         self.leaky_relu(alpha=alpha)
-        self.conv2d_transpose_layer(nfilters=filter2, sizefilter=sizefilter, strides=stride2, padding="same",
+        self.conv2d_layer(nfilters=filter3, sizefilter=sizefilter, strides=stride3, padding="same",
+                          kernel_regularizer=tf.keras.regularizers.l2(lamreg))
+        self.leaky_relu(alpha=alpha)
+        self.conv2d_transpose_layer(nfilters=filter2, sizefilter=sizefilter, strides=stride3, padding="same",
                                     kernel_regularizer=tf.keras.regularizers.l2(lamreg))
         self.leaky_relu(alpha=alpha)
-        self.conv2d_transpose_layer(nfilters=int(filter2 / 2), sizefilter=sizefilter, strides=(1, 1), padding="same",
+        self.conv2d_transpose_layer(nfilters=filter1, sizefilter=sizefilter, strides=stride2, padding="same",
                                     kernel_regularizer=tf.keras.regularizers.l2(lamreg))
         self.leaky_relu(alpha=alpha)
-        self.conv2d_transpose_layer(nfilters=filter1, sizefilter=sizefilter, strides=stride1, padding="same",
+        self.conv2d_transpose_layer(nfilters=filter0, sizefilter=sizefilter, strides=stride1, padding="same",
                                     kernel_regularizer=tf.keras.regularizers.l2(lamreg))
         self.leaky_relu(alpha=alpha)
-        self.conv2d_transpose_layer(nfilters=self.channels, sizefilter=sizefilter, strides=(1, 1), padding="same",
+        self.conv2d_transpose_layer(nfilters=self.channels, sizefilter=sizefilter, strides=stride0, padding="same",
                                     kernel_regularizer=tf.keras.regularizers.l2(lamreg))
         self.leaky_relu(alpha=alpha)
 
